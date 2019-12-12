@@ -1,5 +1,6 @@
 export const PLAYER_ATTACK = "PLAYER_ATTACK";
 export const PLAYER_LOGIN = "PLAYER_LOGIN";
+export const RESTART_MATCH = "RESTART_MATCH";
 
 interface IAttackAction {
   type: typeof PLAYER_ATTACK;
@@ -17,4 +18,11 @@ interface IPlayerLogınAction {
   };
 }
 
-export type PlayerActionTypes = IAttackAction | IPlayerLogınAction; // More may come
+interface IRestartMatchAction {
+  type: typeof RESTART_MATCH;
+}
+
+export type PlayerActionTypes =
+  | IAttackAction
+  | IPlayerLogınAction
+  | IRestartMatchAction; // More may come

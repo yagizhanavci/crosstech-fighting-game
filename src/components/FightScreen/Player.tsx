@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { Player } from "../../store/Player/types";
 
 interface PlayerComponentProps {

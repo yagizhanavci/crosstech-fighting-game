@@ -3,6 +3,7 @@ import {
   PlayerActionTypes,
   PLAYER_ATTACK,
   PLAYER_LOGIN,
+  RESTART_MATCH,
 } from "./actions/types";
 
 const initialPlayerState: Player[] = [
@@ -158,6 +159,13 @@ export const playerReducer = (
       const newState = [...state];
       newState[0].name = action.payload.username;
       return newState;
+    case RESTART_MATCH:
+      const newRematchState = [...state];
+      newRematchState[0].armorPoints = 100;
+      newRematchState[1].armorPoints = 100;
+      newRematchState[0].healthPoints = 100;
+      newRematchState[1].healthPoints = 100;
+      return newRematchState;
     default:
       return state;
   }

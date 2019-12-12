@@ -1,5 +1,9 @@
 import { War } from "./types";
-import { WarActionTypes, LOG_ACTIVE_WAR } from "./actions/types";
+import {
+  WarActionTypes,
+  LOG_ACTIVE_WAR,
+  CLEAR_ACTIVE_WAR_LOGS,
+} from "./actions/types";
 import v4 from "uuid/v4";
 
 const initialWarState: War = {
@@ -21,6 +25,10 @@ export const warReducer = (
             logText: `${player} has used ${actionName} attack and dealt ${abilityDamage} to his/her opponent at turn ${turn}`,
           },
         ],
+      };
+    case CLEAR_ACTIVE_WAR_LOGS:
+      return {
+        recentLogs: [],
       };
     default:
       return state;

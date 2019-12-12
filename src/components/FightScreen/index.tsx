@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { Player } from "../../store/Player/types";
 import { connect } from "react-redux";
@@ -11,11 +11,17 @@ import { WarActionTypes } from "../../store/War/actions/types";
 import { logActiveWarAction } from "../../store/War/actions/logActiveWarAction";
 import { War } from "../../store/War/types";
 import Log from "./Log";
+import { MatchHistoryActionTypes } from "../../store/MatchHistory/actions/types";
+import { logMatchHistoryAction } from "../../store/MatchHistory/actions/logMatchHistory";
+import { Match } from "../../store/MatchHistory/types";
 import "./FightScreen.css";
+import { restartMatchAction } from "../../store/Player/actions/restartMatch";
+import { clearActiveWarLogsAction } from "../../store/War/actions/clearActiveWarLogs";
 
 interface FightScreenProps extends RouteComponentProps {
   players: Player[];
   activeWarLogs: War;
+  matchHistory: Match[];
   attack: (from: string, actionName: string, turn: number) => PlayerActionTypes;
   logActiveWar: (
     turn: number,
@@ -23,6 +29,13 @@ interface FightScreenProps extends RouteComponentProps {
     actionName: string,
     abilityDamage: number,
   ) => WarActionTypes;
+  logMatch: (
+    winner: string,
+    loser: string,
+    matchDate: Date,
+  ) => MatchHistoryActionTypes;
+  restartMatch: () => PlayerActionTypes;
+  clearActiveWarLogs: () => WarActionTypes;
 }
 
 const FightScreen: React.FC<FightScreenProps> = ({
@@ -30,6 +43,10 @@ const FightScreen: React.FC<FightScreenProps> = ({
   attack,
   logActiveWar,
   activeWarLogs,
+  matchHistory,
+  logMatch,
+  restartMatch,
+  clearActiveWarLogs,
 }) => {
   const [turn, setTurn] = useState<number>(1);
   const [isPlayerTurn, setIsPlayerTurn] = useState<boolean>(true);
@@ -51,15 +68,16 @@ const FightScreen: React.FC<FightScreenProps> = ({
     actionName: string,
     abilityDamage: number,
   ) => {
-    attack("player", actionName, turn);
-    logActiveWar(turn, player, actionName, abilityDamage);
-    setIsPlayerTurn(false);
-    handleBotAttack();
+    if (!winner || playerHealthPoints > 0) {
+      attack("player", actionName, turn);
+      logActiveWar(turn, player, actionName, abilityDamage);
+      setIsPlayerTurn(false);
+    }
   };
 
   const handleBotAttack = () => {
     // Check if there is a winner
-    if (!winner) {
+    if (!winner || botHealthPoints > 0) {
       setTimeout(() => {
         const botRandomAction = Math.floor(Math.random() * 3) + 1;
         const botActionName =
@@ -89,9 +107,34 @@ const FightScreen: React.FC<FightScreenProps> = ({
       setWinner(botName);
   };
 
+  const handleRestartMatch = () => {
+    setIsPlayerTurn(true);
+    setTurn(1);
+    setWinner("");
+    clearActiveWarLogs();
+    restartMatch();
+  };
+
+  // Check for a winner at each attack to health points
   useEffect(() => {
     decideWinner();
+    // eslint-disable-next-line
   }, [botHealthPoints, playerHealthPoints]);
+
+  useEffect(() => {
+    if (!winner) {
+      if (!isPlayerTurn) handleBotAttack();
+    }
+    // eslint-disable-next-line
+  }, [isPlayerTurn]);
+
+  useEffect(() => {
+    if (winner !== "") {
+      const loser = winner === "bot" ? playerName : botName;
+      logMatch(winner, loser, new Date());
+    }
+    // eslint-disable-next-line
+  }, [winner]);
 
   if (playerName) {
     return (
@@ -109,13 +152,30 @@ const FightScreen: React.FC<FightScreenProps> = ({
         </div>
         {winner && (
           <div className="winner-field">
-            <h3>{winner} has won</h3>
+            <h3 className="winner-header">{winner} has won</h3>
+            <button
+              className="winner-restart-button"
+              onClick={handleRestartMatch}
+            >
+              Restart
+            </button>
           </div>
         )}
         <div className="logs-field">
-          {activeWarLogs.recentLogs.map(log => (
-            <Log key={log.id} logText={log.logText} />
-          ))}
+          <div className="active-logs">
+            {activeWarLogs.recentLogs.map(log => (
+              <Log key={log.id} logText={log.logText} />
+            ))}
+          </div>
+          <div className="match-history-logs">
+            {matchHistory.map(match => {
+              return (
+                <div key={match.id} className="match-log">
+                  <p className="match-log-text">{match.matchInfo}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     );
@@ -128,6 +188,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     players: state.players,
     activeWarLogs: state.activeWar,
+    matchHistory: state.matchHistory.matchHistory,
   };
 };
 
@@ -144,6 +205,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       dispatch<WarActionTypes>(
         logActiveWarAction(turn, player, actionName, abilityDamage),
       ),
+    clearActiveWarLogs: () =>
+      dispatch<WarActionTypes>(clearActiveWarLogsAction()),
+    logMatch: (winner: string, loser: string, matchDate: Date) =>
+      dispatch<MatchHistoryActionTypes>(
+        logMatchHistoryAction(winner, loser, matchDate),
+      ),
+    restartMatch: () => dispatch<PlayerActionTypes>(restartMatchAction()),
   };
 };
 

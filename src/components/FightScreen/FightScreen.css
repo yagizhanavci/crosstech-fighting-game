@@ -1,0 +1,67 @@
+.fight-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.players-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.player-armor-field {
+  width: 300px;
+  border: 1px solid white;
+  background-color: white;
+  position: relative;
+  height: 30px;
+  margin: 10px auto;
+}
+
+.player-armor-bar {
+  width: 80%;
+  height: 30px;
+  background-color: gray;
+}
+
+.player-armor-points,
+.player-health-points {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 30px;
+}
+
+.player-health-field {
+  width: 300px;
+  border: 1px solid red;
+  background-color: red;
+  position: relative;
+  height: 30px;
+  margin: 0 auto 10px auto;
+}
+
+.player-health-bar {
+  width: 80%;
+  height: 30px;
+  background-color: rgb(20, 214, 20);
+}
+
+.ability:disabled {
+  cursor: not-allowed;
+}

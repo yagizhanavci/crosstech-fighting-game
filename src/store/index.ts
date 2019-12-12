@@ -1,8 +1,10 @@
 import { createStore, combineReducers } from "redux";
 import { playerReducer } from "./Player/reducer";
+import { warReducer } from "./War/reducer";
 
 const rootReducer = combineReducers({
   players: playerReducer,
+  activeWar: warReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

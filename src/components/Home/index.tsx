@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import "./Home.css";
 import { RouteComponentProps } from "react-router-dom";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { PlayerActionTypes } from "../../store/Player/actions/types";
+import { playerLogin } from "../../store/Player/actions/playerLogin";
+import "./Home.css";
 
-interface Props extends RouteComponentProps {}
+interface Props extends RouteComponentProps {
+  login: (username: string) => PlayerActionTypes;
+}
 
-const Home: React.FC<Props> = ({ history }) => {
+const Home: React.FC<Props> = ({ history, login }) => {
   const [playerName, setPlayerName] = useState("");
   const [error, setError] = useState(false);
 
@@ -26,6 +32,7 @@ const Home: React.FC<Props> = ({ history }) => {
           placeholder="Your Name..."
           required={true}
         />
+        {error ? "This field is required please provide a name!" : null}
         <button
           type="submit"
           onClick={e => {
@@ -35,7 +42,8 @@ const Home: React.FC<Props> = ({ history }) => {
               setError(true);
               return;
             }
-            history.push("/fighting-screen");
+            login(playerName);
+            history.push("/fight-screen");
           }}
         >
           Start
@@ -45,4 +53,11 @@ const Home: React.FC<Props> = ({ history }) => {
   );
 };
 
-export default Home;
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    login: (username: string) =>
+      dispatch<PlayerActionTypes>(playerLogin(username)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Home);

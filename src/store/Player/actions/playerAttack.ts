@@ -1,4 +1,4 @@
-import { PlayerActionTypes } from "./types";
+import { PlayerActionTypes, PLAYER_ATTACK } from "./types";
 
 export const playerAttack = (
   from: string,
@@ -6,7 +6,7 @@ export const playerAttack = (
   turn: number,
 ): PlayerActionTypes => {
   return {
-    type: "PLAYER_ATTACK",
+    type: PLAYER_ATTACK,
     payload: {
       from,
       actionName,

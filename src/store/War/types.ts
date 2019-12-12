@@ -1,7 +1,8 @@
+export interface WarLog {
+  id: string;
+  logText: string;
+}
+
 export interface War {
-  turn: number;
-  playerArmorPoints: number;
-  botArmorPoints: number;
-  playerHealthPoints: number;
-  botHealthPoints: number;
+  recentLogs: WarLog[];
 }

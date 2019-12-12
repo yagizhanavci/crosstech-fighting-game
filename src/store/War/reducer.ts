@@ -1,21 +1,10 @@
 import { War } from "./types";
 import { WarActionTypes, LOG_ACTIVE_WAR } from "./actions/types";
+import v4 from "uuid/v4";
 
-const continuingWar: War = JSON.parse(
-  localStorage.getItem("continuingWar") || "{}",
-);
-
-const initialWarState: War = continuingWar
-  ? {
-      ...continuingWar,
-    }
-  : {
-      turn: 1,
-      playerArmorPoints: 100,
-      playerHealthPoints: 100,
-      botArmorPoints: 100,
-      botHealthPoints: 100,
-    };
+const initialWarState: War = {
+  recentLogs: [],
+};
 
 export const warReducer = (
   state: War = initialWarState,
@@ -23,9 +12,15 @@ export const warReducer = (
 ): War => {
   switch (action.type) {
     case LOG_ACTIVE_WAR:
-      localStorage.setItem("continuingWar", JSON.stringify(action.payload));
+      const { turn, player, actionName, abilityDamage } = action.payload;
       return {
-        ...action.payload,
+        recentLogs: [
+          ...state.recentLogs,
+          {
+            id: v4(),
+            logText: `${player} has used ${actionName} attack and dealt ${abilityDamage} to his/her opponent at turn ${turn}`,
+          },
+        ],
       };
     default:
       return state;

@@ -5,7 +5,7 @@ import {
   PLAYER_LOGIN,
 } from "./actions/types";
 
-const initialPlayerState = [
+const initialPlayerState: Player[] = [
   {
     id: "player",
     name: "",

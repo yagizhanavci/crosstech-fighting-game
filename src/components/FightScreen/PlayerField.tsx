@@ -10,6 +10,7 @@ interface PlayerComponentProps {
     actionName: string,
     abilityDamage: number,
   ) => void;
+  playerImage: string;
 }
 
 const PlayerField: React.FC<PlayerComponentProps> = ({
@@ -17,6 +18,7 @@ const PlayerField: React.FC<PlayerComponentProps> = ({
   handlePlayerAttack,
   isPlayerTurn,
   botHealthPoints,
+  playerImage,
 }) => {
   const {
     name,
@@ -31,7 +33,7 @@ const PlayerField: React.FC<PlayerComponentProps> = ({
   const healthBarStyles = { width: `${healthPoints}%` };
 
   return (
-    <div className="player">
+    <div className="player col-md-6">
       <h4 className="player-name">{name}</h4>
       <div className="player-armor-field">
         <div style={armorBarStyles} className="player-armor-bar">
@@ -43,18 +45,28 @@ const PlayerField: React.FC<PlayerComponentProps> = ({
           <span className="player-health-points">{healthPoints}</span>
         </div>
       </div>
-      {/* Insert Player Image Here */}
+      <div className="player-image-field mt-1">
+        <img
+          src={playerImage}
+          alt={playerImage}
+          width={200}
+          height={400}
+          className="player-image"
+        />
+      </div>
       <div className="ability-field">
         <button
           onClick={() => {
             handlePlayerAttack(name, "auto", autoAttackDamage);
           }}
-          className="ability"
+          className="ability btn btn-primary btn-lg mr-3"
           disabled={
             isBot || !isPlayerTurn || botHealthPoints === 0 ? true : false
           }
         >
-          auto attack
+          <span>
+            <i className="fas fa-khanda"></i>
+          </span>
         </button>
         {abilities.map(ability => {
           return (
@@ -67,13 +79,27 @@ const PlayerField: React.FC<PlayerComponentProps> = ({
                 );
               }}
               key={ability.id}
-              className="ability"
+              className={`ability mr-3 btn btn-lg ${
+                ability.abilityName === "hadouken"
+                  ? "btn-danger"
+                  : "btn-success"
+              }`}
               disabled={
                 isBot || !isPlayerTurn || botHealthPoints === 0 ? true : false
               }
             >
-              {/* Insert Ability Image Here */}
-              {ability.abilityName}
+              {ability.abilityName === "hadouken" ? (
+                <span>
+                  <i className="fas fa-fire"></i>
+                </span>
+              ) : (
+                <span>
+                  <i
+                    style={{ fontSize: "1.5rem" }}
+                    className="fas fa-mars-stroke-v"
+                  ></i>
+                </span>
+              )}
             </button>
           );
         })}

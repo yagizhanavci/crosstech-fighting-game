@@ -4,6 +4,11 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  position: relative;
+}
+
+.btn {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
 }
 
 .players-field {
@@ -13,6 +18,7 @@
   align-items: center;
   width: 100%;
   text-align: center;
+  position: relative;
 }
 
 .player {
@@ -29,12 +35,12 @@
   background-color: white;
   position: relative;
   height: 30px;
-  margin: 10px auto;
+  margin: 0.8rem auto;
 }
 
 .player-armor-bar {
   width: 100%;
-  height: 30px;
+  height: 100%;
   background-color: gray;
 }
 
@@ -45,6 +51,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   line-height: 30px;
+  font-weight: bolder;
 }
 
 .player-health-field {
@@ -53,13 +60,29 @@
   background-color: red;
   position: relative;
   height: 30px;
-  margin: 0 auto 10px auto;
+  margin: 0 auto 0.5rem auto;
 }
 
 .player-health-bar {
   width: 100%;
-  height: 30px;
+  height: 100%;
   background-color: rgb(20, 214, 20);
+}
+
+.player-turn-indicator-field {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-turn-indicator-field i {
+  font-size: 1.6rem;
+}
+
+.player-turn-indicator-field p {
+  font-size: 1.6rem;
 }
 
 .ability {
@@ -68,4 +91,51 @@
 
 .ability:disabled {
   cursor: not-allowed;
+}
+
+.winner-field {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+.winner-field-content {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  padding: 2rem;
+  border-radius: 5px;
+}
+
+.winner-header {
+  color: white;
+  margin-bottom: 1.6rem;
+}
+
+.winner-restart-button {
+  text-transform: uppercase;
+}
+
+.logs-field {
+  width: 100%;
+}
+
+.active-logs {
+  border-right: 1px solid black;
+}
+
+.active-logs-header,
+.match-history-logs-header {
+  border-bottom: 1px solid black;
+  padding-bottom: 1rem;
 }

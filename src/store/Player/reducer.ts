@@ -18,13 +18,13 @@ const initialPlayerState: Player[] = [
       {
         id: "ability-1",
         playerId: "player",
-        abilityName: "abilityName-1",
+        abilityName: "hadouken",
         abilityDamage: 20,
       },
       {
         id: "ability-2",
         playerId: "player",
-        abilityName: "abilityName-2",
+        abilityName: "shoryuken",
         abilityDamage: 15,
       },
     ],
@@ -40,13 +40,13 @@ const initialPlayerState: Player[] = [
       {
         id: "ability-1",
         playerId: "bot",
-        abilityName: "abilityName-1",
+        abilityName: "hadouken",
         abilityDamage: 15,
       },
       {
         id: "ability-2",
         playerId: "bot",
-        abilityName: "abilityName-2",
+        abilityName: "shoryuken",
         abilityDamage: 18,
       },
     ],

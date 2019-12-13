@@ -19,9 +19,9 @@ const Home: React.FC<Props> = ({ history, login }) => {
     : { borderColor: "light-gray" };
 
   return (
-    <div className="home">
-      <h1 className="home-header">Welcome to Street Fighter</h1>
-      <div className="name-field">
+    <main className="home container-fluid">
+      <h1 className="home-header mb-5">Welcome to Street Fighter</h1>
+      <section className="name-field">
         <h4 className="name-field-header">Enter Your Name*</h4>
         <input
           style={inputStyle}
@@ -34,6 +34,7 @@ const Home: React.FC<Props> = ({ history, login }) => {
         />
         {error ? "This field is required please provide a name!" : null}
         <button
+          className="btn btn-success btn-md"
           type="submit"
           onClick={e => {
             // Insert name logic here
@@ -48,8 +49,8 @@ const Home: React.FC<Props> = ({ history, login }) => {
         >
           Start
         </button>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 

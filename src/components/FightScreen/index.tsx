@@ -6,7 +6,7 @@ import { RootState } from "../../store";
 import { Dispatch } from "redux";
 import { PlayerActionTypes } from "../../store/Player/actions/types";
 import { playerAttack } from "../../store/Player/actions/playerAttack";
-import PlayerField from "./Player";
+import PlayerField from "./PlayerField";
 import { WarActionTypes } from "../../store/War/actions/types";
 import { logActiveWarAction } from "../../store/War/actions/logActiveWarAction";
 import { War } from "../../store/War/types";
@@ -14,9 +14,11 @@ import Log from "./Log";
 import { MatchHistoryActionTypes } from "../../store/MatchHistory/actions/types";
 import { logMatchHistoryAction } from "../../store/MatchHistory/actions/logMatchHistory";
 import { Match } from "../../store/MatchHistory/types";
-import "./FightScreen.css";
 import { restartMatchAction } from "../../store/Player/actions/restartMatch";
 import { clearActiveWarLogsAction } from "../../store/War/actions/clearActiveWarLogs";
+import ryuNormal from "../../images/ryu-normal.png";
+import kenNormal from "../../images/ken-normal.png";
+import "./FightScreen.css";
 
 interface FightScreenProps extends RouteComponentProps {
   players: Player[];
@@ -84,8 +86,8 @@ const FightScreen: React.FC<FightScreenProps> = ({
           botRandomAction === 1
             ? "auto"
             : botRandomAction === 2
-            ? "abilityName-1"
-            : "abilityName-2";
+            ? "hadouken"
+            : "shoryuken";
         attack("bot", botActionName, turn);
         logActiveWar(
           turn,
@@ -138,8 +140,22 @@ const FightScreen: React.FC<FightScreenProps> = ({
 
   if (playerName) {
     return (
-      <div className="fight-screen">
-        <div className="players-field">
+      <main className="fight-screen container-fluid">
+        <section className="players-field row mt-3 mb-3">
+          {!winner && (
+            <div className="player-turn-indicator-field">
+              <span className="mb-2">
+                <i
+                  className={`fas ${
+                    isPlayerTurn ? "fa-arrow-left" : "fa-arrow-right"
+                  }`}
+                ></i>
+              </span>
+              <p>
+                {isPlayerTurn ? `${playerName}'s Turn` : `${botName}'s Turn`}
+              </p>
+            </div>
+          )}
           {players.map(player => (
             <PlayerField
               key={player.id}
@@ -147,37 +163,44 @@ const FightScreen: React.FC<FightScreenProps> = ({
               handlePlayerAttack={handlePlayerAttack}
               isPlayerTurn={isPlayerTurn}
               botHealthPoints={botHealthPoints}
+              playerImage={player.id === "player" ? ryuNormal : kenNormal}
             />
           ))}
-        </div>
+        </section>
         {winner && (
-          <div className="winner-field">
-            <h3 className="winner-header">{winner} has won</h3>
-            <button
-              className="winner-restart-button"
-              onClick={handleRestartMatch}
-            >
-              Restart
-            </button>
-          </div>
+          <section className="winner-field">
+            <div className="winner-field-content">
+              <h3 className="winner-header text-center">{winner} has won</h3>
+              <button
+                className={`winner-restart-button text-center btn btn-lg ${
+                  winner === "A.I." ? "btn-warning" : "btn-success"
+                }`}
+                onClick={handleRestartMatch}
+              >
+                Restart
+              </button>
+            </div>
+          </section>
         )}
-        <div className="logs-field">
-          <div className="active-logs">
-            {activeWarLogs.recentLogs.map(log => (
-              <Log key={log.id} logText={log.logText} />
-            ))}
+        <section className="logs-field mt-5 container">
+          <div className="row">
+            <div className="active-logs col-md-8">
+              <h3 className="active-logs-header text-center">Fight Logs</h3>
+              {activeWarLogs.recentLogs.map(log => (
+                <Log key={log.id} logText={log.logText} />
+              ))}
+            </div>
+            <div className="match-history-logs col-md-4">
+              <h3 className="match-history-logs-header text-center">
+                Match History
+              </h3>
+              {matchHistory.map(match => (
+                <Log key={match.id} logText={match.matchInfo} />
+              ))}
+            </div>
           </div>
-          <div className="match-history-logs">
-            {matchHistory.map(match => {
-              return (
-                <div key={match.id} className="match-log">
-                  <p className="match-log-text">{match.matchInfo}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+        </section>
+      </main>
     );
   } else {
     return <Redirect to="/" />;

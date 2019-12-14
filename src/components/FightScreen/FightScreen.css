@@ -30,7 +30,6 @@
 }
 
 .player-name {
-  text-transform: uppercase;
   font-weight: bold;
 }
 
@@ -118,6 +117,8 @@
 
 .ability {
   cursor: pointer;
+  position: relative;
+  z-index: 10;
 }
 
 .ability:disabled {
@@ -132,32 +133,34 @@
   transform: scale(0.95);
 }
 
-.winner-field {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 10;
-}
-
-.winner-field-content {
+.ability .ability-description {
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: block;
+  opacity: 0;
+  pointer-events: none;
+  font-size: 1rem;
+  bottom: -300%;
+  left: -50%;
   background-color: black;
-  padding: 2rem;
+  transition: opacity 0.3s ease;
+  padding: 1rem;
   border-radius: 5px;
 }
 
+.ability:hover .ability-description {
+  opacity: 1;
+}
+
+.winner-field {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
 .winner-header {
-  color: white;
+  color: black;
   margin-bottom: 1.6rem;
 }
 
@@ -184,6 +187,7 @@
   border-bottom: 1px solid black;
   padding-bottom: 1rem;
   text-transform: uppercase;
+  font-weight: bold;
 }
 
 .log-text-ability-auto,

@@ -19,6 +19,7 @@ import { clearActiveWarLogsAction } from "../../store/War/actions/clearActiveWar
 import ryuNormal from "../../images/ryu-normal.png";
 import kenNormal from "../../images/ken-normal.png";
 import "./FightScreen.css";
+// import LoadingScreen from "../LoadingScreen";
 
 interface FightScreenProps extends RouteComponentProps {
   players: Player[];
@@ -54,6 +55,7 @@ const FightScreen: React.FC<FightScreenProps> = ({
   const [turn, setTurn] = useState<number>(1);
   const [isPlayerTurn, setIsPlayerTurn] = useState<boolean>(true);
   const [winner, setWinner] = useState<string>("");
+  // const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const {
     name: botName,
@@ -158,6 +160,21 @@ const FightScreen: React.FC<FightScreenProps> = ({
               </p>
             </div>
           )}
+          {winner && (
+            <section className="winner-field">
+              <div className="winner-field-content">
+                <h3 className="winner-header text-center">{winner} has won</h3>
+                <button
+                  className={`winner-restart-button text-center btn btn-lg ${
+                    winner === "A.I." ? "btn-warning" : "btn-success"
+                  }`}
+                  onClick={handleRestartMatch}
+                >
+                  Restart
+                </button>
+              </div>
+            </section>
+          )}
           {players.map(player => (
             <PlayerField
               key={player.id}
@@ -169,21 +186,6 @@ const FightScreen: React.FC<FightScreenProps> = ({
             />
           ))}
         </section>
-        {winner && (
-          <section className="winner-field">
-            <div className="winner-field-content">
-              <h3 className="winner-header text-center">{winner} has won</h3>
-              <button
-                className={`winner-restart-button text-center btn btn-lg ${
-                  winner === "A.I." ? "btn-warning" : "btn-success"
-                }`}
-                onClick={handleRestartMatch}
-              >
-                Restart
-              </button>
-            </div>
-          </section>
-        )}
         <section className="logs-field mt-2 container">
           <div className="row">
             <div className="active-logs-container col-md-8">

@@ -77,6 +77,9 @@ const PlayerField: React.FC<PlayerComponentProps> = ({
           <span>
             <i className="fas fa-khanda"></i>
           </span>
+          <span className="ability-description text-center">
+            Auto attack deals {player.autoAttackDamage} damage
+          </span>
         </button>
         {abilities.map(ability => {
           return (
@@ -110,6 +113,10 @@ const PlayerField: React.FC<PlayerComponentProps> = ({
                   ></i>
                 </span>
               )}
+              <span className="ability-description text-center">
+                {ability.abilityName} attack deals {ability.abilityDamage}{" "}
+                damage
+              </span>
             </button>
           );
         })}

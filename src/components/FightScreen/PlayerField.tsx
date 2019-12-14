@@ -36,11 +36,21 @@ const PlayerField: React.FC<PlayerComponentProps> = ({
     <div className="player col-md-6">
       <h4 className="player-name">{name}</h4>
       <div className="player-armor-field">
+        <span>
+          <i
+            className={`fas fa-shield-alt ${armorPoints === 0 && "broken"}`}
+          ></i>
+        </span>
         <div style={armorBarStyles} className="player-armor-bar">
           <span className="player-armor-points">{armorPoints}</span>
         </div>
       </div>
       <div className="player-health-field">
+        <span>
+          <i
+            className={`fas fa-plus-square ${healthPoints === 0 && "broken"}`}
+          ></i>
+        </span>
         <div style={healthBarStyles} className="player-health-bar">
           <span className="player-health-points">{healthPoints}</span>
         </div>

@@ -5,6 +5,7 @@ export const logActiveWarAction = (
   player: string,
   actionName: string,
   abilityDamage: number,
+  healthPoints: number,
 ): WarActionTypes => {
   return {
     type: LOG_ACTIVE_WAR,
@@ -13,6 +14,7 @@ export const logActiveWarAction = (
       player,
       actionName,
       abilityDamage,
+      healthPoints,
     },
   };
 };

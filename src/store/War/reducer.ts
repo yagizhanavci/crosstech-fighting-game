@@ -16,16 +16,24 @@ export const warReducer = (
 ): War => {
   switch (action.type) {
     case LOG_ACTIVE_WAR:
-      const { turn, player, actionName, abilityDamage } = action.payload;
-      return {
-        recentLogs: [
-          ...state.recentLogs,
-          {
-            id: v4(),
-            logText: `${player} has used ${actionName} attack and dealt ${abilityDamage} to his/her opponent at turn ${turn}`,
-          },
-        ],
-      };
+      const {
+        turn,
+        player,
+        actionName,
+        abilityDamage,
+        healthPoints,
+      } = action.payload;
+      if (healthPoints > 0)
+        return {
+          recentLogs: [
+            ...state.recentLogs,
+            {
+              id: v4(),
+              logText: `${player} has used ${actionName} attack and dealt ${abilityDamage} to his/her opponent at turn ${turn}`,
+            },
+          ],
+        };
+      else return state;
     case CLEAR_ACTIVE_WAR_LOGS:
       return {
         recentLogs: [],

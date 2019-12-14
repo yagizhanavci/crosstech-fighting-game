@@ -8,6 +8,7 @@ interface ILogActiveWarAction {
     player: string;
     actionName: string;
     abilityDamage: number;
+    healthPoints: number;
   };
 }
 

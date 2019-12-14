@@ -30,6 +30,7 @@ interface FightScreenProps extends RouteComponentProps {
     player: string,
     actionName: string,
     abilityDamage: number,
+    healthPoints: number,
   ) => WarActionTypes;
   logMatch: (
     winner: string,
@@ -72,7 +73,7 @@ const FightScreen: React.FC<FightScreenProps> = ({
   ) => {
     if (!winner || playerHealthPoints > 0) {
       attack("player", actionName, turn);
-      logActiveWar(turn, player, actionName, abilityDamage);
+      logActiveWar(turn, player, actionName, abilityDamage, playerHealthPoints);
       setIsPlayerTurn(false);
     }
   };
@@ -96,6 +97,7 @@ const FightScreen: React.FC<FightScreenProps> = ({
           botRandomAction === 1
             ? botAutoAttackDamage
             : botAbilities[botRandomAction - 2].abilityDamage,
+          botHealthPoints,
         );
         setTurn(prevTurn => prevTurn + 1);
         setIsPlayerTurn(true);
@@ -182,21 +184,25 @@ const FightScreen: React.FC<FightScreenProps> = ({
             </div>
           </section>
         )}
-        <section className="logs-field mt-5 container">
+        <section className="logs-field mt-2 container">
           <div className="row">
-            <div className="active-logs col-md-8">
-              <h3 className="active-logs-header text-center">Fight Logs</h3>
-              {activeWarLogs.recentLogs.map(log => (
-                <Log key={log.id} logText={log.logText} />
-              ))}
+            <div className="active-logs-container col-md-8">
+              <h4 className="active-logs-header text-center">Fight Logs</h4>
+              <div className="active-logs">
+                {activeWarLogs.recentLogs.map(log => (
+                  <Log key={log.id} logText={log.logText} />
+                ))}
+              </div>
             </div>
-            <div className="match-history-logs col-md-4">
-              <h3 className="match-history-logs-header text-center">
+            <div className="match-history-logs-container col-md-4">
+              <h4 className="match-history-logs-header text-center">
                 Match History
-              </h3>
-              {matchHistory.map(match => (
-                <Log key={match.id} logText={match.matchInfo} />
-              ))}
+              </h4>
+              <div className="match-history-logs">
+                {matchHistory.map(match => (
+                  <Log key={match.id} logText={match.matchInfo} />
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -224,9 +230,16 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
       player: string,
       actionName: string,
       abilityDamage: number,
+      healthPoints: number,
     ) =>
       dispatch<WarActionTypes>(
-        logActiveWarAction(turn, player, actionName, abilityDamage),
+        logActiveWarAction(
+          turn,
+          player,
+          actionName,
+          abilityDamage,
+          healthPoints,
+        ),
       ),
     clearActiveWarLogs: () =>
       dispatch<WarActionTypes>(clearActiveWarLogsAction()),

@@ -29,6 +29,11 @@
   width: 100%;
 }
 
+.player-name {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
 .player-armor-field {
   width: 300px;
   border: 1px solid white;
@@ -42,6 +47,11 @@
   width: 100%;
   height: 100%;
   background-color: gray;
+}
+
+.player-armor-bar,
+.player-health-bar {
+  transition: width 0.2s ease;
 }
 
 .player-armor-points,
@@ -61,6 +71,27 @@
   position: relative;
   height: 30px;
   margin: 0 auto 0.5rem auto;
+}
+
+.player-health-field i,
+.player-armor-field i {
+  position: absolute;
+  line-height: 30px;
+  left: -2rem;
+  font-size: 1.6rem;
+}
+
+.player-armor-field i.broken::after,
+.player-health-field i.broken::after {
+  content: "";
+  position: absolute;
+  left: 0.7rem;
+  top: -0.2rem;
+  line-height: 30px;
+  width: 4px;
+  height: 35px;
+  background-color: black;
+  transform: rotate(35deg);
 }
 
 .player-health-bar {
@@ -91,6 +122,14 @@
 
 .ability:disabled {
   cursor: not-allowed;
+}
+
+.ability:hover {
+  transform: scale(1.05);
+}
+
+.ability:active {
+  transform: scale(0.95);
 }
 
 .winner-field {
@@ -130,12 +169,41 @@
   width: 100%;
 }
 
-.active-logs {
+.active-logs-container {
   border-right: 1px solid black;
+}
+
+.active-logs,
+.match-history-logs {
+  overflow-y: scroll;
+  max-height: 105px;
 }
 
 .active-logs-header,
 .match-history-logs-header {
   border-bottom: 1px solid black;
   padding-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.log-text-ability-auto,
+.log-text-ability-hadouken,
+.log-text-ability-shoryuken {
+  font-weight: bold;
+  color: white;
+  padding: 0.3rem;
+  margin: 0.3rem;
+  text-align: center;
+}
+
+.log-text-ability-auto {
+  background-color: #007bff;
+}
+
+.log-text-ability-hadouken {
+  background-color: #dc3545;
+}
+
+.log-text-ability-shoryuken {
+  background-color: #28a745;
 }

@@ -1,5 +1,6 @@
 import React from "react";
-import { Player } from "../../store/Player/types";
+import { Player } from "../../../store/Player/types";
+import './PlayerField.css';
 
 interface PlayerComponentProps {
   player: Player;

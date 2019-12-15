@@ -6,11 +6,11 @@ import { RootState } from "../../store";
 import { Dispatch } from "redux";
 import { PlayerActionTypes } from "../../store/Player/actions/types";
 import { playerAttack } from "../../store/Player/actions/playerAttack";
-import PlayerField from "./PlayerField";
+import PlayerField from "./PlayerField/index";
 import { WarActionTypes } from "../../store/War/actions/types";
 import { logActiveWarAction } from "../../store/War/actions/logActiveWarAction";
 import { War } from "../../store/War/types";
-import Log from "./Log";
+import Log from "./Log/index";
 import { MatchHistoryActionTypes } from "../../store/MatchHistory/actions/types";
 import { logMatchHistoryAction } from "../../store/MatchHistory/actions/logMatchHistory";
 import { Match } from "../../store/MatchHistory/types";
@@ -19,7 +19,6 @@ import { clearActiveWarLogsAction } from "../../store/War/actions/clearActiveWar
 import ryuNormal from "../../images/ryu-normal.png";
 import kenNormal from "../../images/ken-normal.png";
 import "./FightScreen.css";
-// import LoadingScreen from "../LoadingScreen";
 
 interface FightScreenProps extends RouteComponentProps {
   players: Player[];
@@ -55,7 +54,6 @@ const FightScreen: React.FC<FightScreenProps> = ({
   const [turn, setTurn] = useState<number>(1);
   const [isPlayerTurn, setIsPlayerTurn] = useState<boolean>(true);
   const [winner, setWinner] = useState<string>("");
-  // const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const {
     name: botName,
@@ -107,12 +105,14 @@ const FightScreen: React.FC<FightScreenProps> = ({
     }
   };
 
+  // Check the health points of the players and decide the winner
   const decideWinner = () => {
     if (playerHealthPoints > 0 && botHealthPoints === 0) setWinner(playerName);
     else if (botHealthPoints > 0 && playerHealthPoints === 0)
       setWinner(botName);
   };
 
+  // Set all the pieces of the state to their initial value
   const handleRestartMatch = () => {
     setIsPlayerTurn(true);
     setTurn(1);
@@ -127,6 +127,7 @@ const FightScreen: React.FC<FightScreenProps> = ({
     // eslint-disable-next-line
   }, [botHealthPoints, playerHealthPoints]);
 
+  // If it is bot's turn then let the bot attack
   useEffect(() => {
     if (!winner) {
       if (!isPlayerTurn) handleBotAttack();
@@ -134,6 +135,7 @@ const FightScreen: React.FC<FightScreenProps> = ({
     // eslint-disable-next-line
   }, [isPlayerTurn]);
 
+  // After the match ends log the match
   useEffect(() => {
     if (winner !== "") {
       const loser = winner === "bot" ? playerName : botName;

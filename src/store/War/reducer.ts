@@ -23,6 +23,7 @@ export const warReducer = (
         abilityDamage,
         healthPoints,
       } = action.payload;
+      // Dont log if the player's (human or bot) health points below 0
       if (healthPoints > 0)
         return {
           recentLogs: [

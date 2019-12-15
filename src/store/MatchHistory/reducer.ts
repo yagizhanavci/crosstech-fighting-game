@@ -12,7 +12,7 @@ const initialMatchHistory: MatchHistory = {
   matchHistory: persistedHistory,
 };
 
-export const matchHistooryReducer = (
+export const matchHistoryReducer = (
   state = initialMatchHistory,
   action: MatchHistoryActionTypes,
 ) => {

@@ -1,0 +1,44 @@
+
+.logs-field {
+  width: 100%;
+}
+
+.active-logs-container {
+  border-right: 1px solid black;
+}
+
+.active-logs,
+.match-history-logs {
+  overflow-y: scroll;
+  max-height: 105px;
+}
+
+.active-logs-header,
+.match-history-logs-header {
+  border-bottom: 1px solid black;
+  padding-bottom: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.log-text-ability-auto,
+.log-text-ability-hadouken,
+.log-text-ability-shoryuken {
+  font-weight: bold;
+  color: white;
+  padding: 0.3rem;
+  margin: 0.3rem;
+  text-align: center;
+}
+
+.log-text-ability-auto {
+  background-color: #007bff;
+}
+
+.log-text-ability-hadouken {
+  background-color: #dc3545;
+}
+
+.log-text-ability-shoryuken {
+  background-color: #28a745;
+}

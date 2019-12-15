@@ -1,4 +1,5 @@
 import React from "react";
+import './Log.css';
 
 interface LogProps {
   logText: string;
@@ -7,13 +8,13 @@ interface LogProps {
 const Log: React.FC<LogProps> = ({ logText }) => {
   const renderText = (
     <p>
-      {logText.split(" ").map(word => {
+      {logText.split(" ").map((word,idx) => {
         if (word === "auto") {
-          return <span className="log-text-ability-auto">AUTO </span>;
+          return <span key={idx} className="log-text-ability-auto">AUTO</span>;
         } else if (word === "hadouken") {
-          return <span className="log-text-ability-hadouken">HADOUKEN </span>;
+          return <span key={idx} className="log-text-ability-hadouken">HADOUKEN</span>;
         } else if (word === "shoryuken") {
-          return <span className="log-text-ability-shoryuken">SHORYUKEN </span>;
+          return <span key={idx} className="log-text-ability-shoryuken">SHORYUKEN</span>;
         } else return `${word} `;
       })}
     </p>

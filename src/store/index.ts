@@ -1,12 +1,12 @@
 import { createStore, combineReducers } from "redux";
 import { playerReducer } from "./Player/reducer";
 import { warReducer } from "./War/reducer";
-import { matchHistooryReducer } from "./MatchHistory/reducer";
+import { matchHistoryReducer } from "./MatchHistory/reducer";
 
 const rootReducer = combineReducers({
   players: playerReducer,
   activeWar: warReducer,
-  matchHistory: matchHistooryReducer,
+  matchHistory: matchHistoryReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

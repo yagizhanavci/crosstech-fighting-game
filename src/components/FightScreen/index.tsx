@@ -86,9 +86,7 @@ const FightScreen: React.FC<FightScreenProps> = ({
         const botActionName =
           botRandomAction === 1
             ? "auto"
-            : botRandomAction === 2
-            ? "hadouken"
-            : "shoryuken";
+            : botAbilities[botRandomAction - 2].abilityName;
         attack("bot", botActionName, turn);
         logActiveWar(
           turn,
